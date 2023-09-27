@@ -4,10 +4,10 @@ import { useRef, useState, useCallback } from "react";
 const Tesseract = require('tesseract.js');
 const WebcamCapture = () => {
     const webcamRef = useRef<Webcam | null>(null);
-    const [imgSrc, setImgSrc] = useState<string | null>(null);
+    const [imgSrc, setImgSrc] = useState<string | null | undefined>(null);
   
     const capture = useCallback(async () => {
-        const imageSrc = webcamRef.current.getScreenshot();
+        const imageSrc = webcamRef.current?.getScreenshot();
         setImgSrc(imageSrc);
     
         // Perform OCR using Tesseract.js
@@ -16,7 +16,7 @@ const WebcamCapture = () => {
             imageSrc,
             'eng', // Language code (e.g., 'eng' for English)
             {
-              logger: (info) => console.log(info), // Optional: Logging
+              logger: (info: any) => console.log(info), // Optional: Logging
             }
           );
           console.log('Recognized Text:', data.text);
